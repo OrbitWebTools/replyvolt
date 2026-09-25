@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ReplyVolt — WhatsApp Automation for Growing Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A0F1E;
+    --navy-card: #131929;
+    --navy-border: #1E2A42;
+    --green: #AAFF00;
+    --cyan: #00E5FF;
+    --white: #F0F4FF;
+    --muted: #7A8BAA;
+    --danger: #FF4B6E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 4rem;
+    background: rgba(10, 15, 30, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.4rem;
+    color: var(--white); text-decoration: none;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .logo span { color: var(--green); }
+  .logo .bolt { font-size: 1.1rem; }
+  nav ul {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  nav ul a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav ul a:hover, nav ul a.active { color: var(--white); }
+  .nav-cta {
+    background: var(--green); color: var(--navy);
+    padding: 0.55rem 1.3rem; border-radius: 6px;
+    font-weight: 600; font-size: 0.85rem;
+    text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+
+  /* ── VOLT LINE ── */
+  .volt-line {
+    position: fixed; top: 0; left: 0; width: 3px; height: 0;
+    background: linear-gradient(to bottom, var(--green), var(--cyan));
+    z-index: 200;
+    animation: voltTrace 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    box-shadow: 0 0 12px var(--green);
+  }
+  @keyframes voltTrace {
+    0% { height: 0; opacity: 1; }
+    80% { height: 100vh; opacity: 1; }
+    100% { height: 100vh; opacity: 0; }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ── HERO ── */
+  #hero {
+    padding-top: 8rem;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(170, 255, 0, 0.08);
+    border: 1px solid rgba(170, 255, 0, 0.25);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.8rem; font-weight: 500;
+    color: var(--green);
+    margin-bottom: 1.8rem;
+  }
+  .hero-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero-title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 480px;
+    margin-bottom: 2.4rem;
+    line-height: 1.75;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--green); color: var(--navy);
+    padding: 0.85rem 1.8rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent; color: var(--white);
+    padding: 0.85rem 1.8rem; border-radius: 8px;
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+    border: 1px solid var(--navy-border);
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+  .hero-metrics {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .metric-item { }
+  .metric-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--green);
+  }
+  .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ── WHATSAPP MOCK ── */
+  .wa-phone {
+    position: relative;
+    background: #1A1F2E;
+    border-radius: 28px;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--navy-border);
+    box-shadow: 0 0 60px rgba(0, 229, 255, 0.06), 0 0 0 1px rgba(170,255,0,0.05);
+    max-width: 380px;
+    margin: 0 auto;
+  }
+  .wa-bar {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .wa-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .wa-name { font-size: 0.9rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+  .wa-status { font-size: 0.75rem; color: var(--green); }
+  .wa-messages { display: flex; flex-direction: column; gap: 0.7rem; }
+  .msg {
+    padding: 0.6rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    max-width: 85%;
+  }
+  .msg.bot {
+    background: #1E2A42;
+    border-radius: 4px 12px 12px 12px;
+    color: var(--white);
+    align-self: flex-start;
+  }
+  .msg.user {
+    background: rgba(170,255,0,0.12);
+    border: 1px solid rgba(170,255,0,0.2);
+    border-radius: 12px 4px 12px 12px;
+    color: var(--green);
+    align-self: flex-end;
+  }
+  .wa-catalog {
+    background: #1E2A42;
+    border-radius: 12px;
+    overflow: hidden;
+    align-self: flex-start;
+    max-width: 90%;
+  }
+  .catalog-img {
+    width: 100%; height: 100px;
+    background: linear-gradient(135deg, #1E3A5F 0%, #0A2A40 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+  }
+  .catalog-info { padding: 0.7rem; }
+  .catalog-name { font-size: 0.82rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+  .catalog-price { font-size: 0.75rem; color: var(--green); margin-top: 0.2rem; }
+  .catalog-btns { display: flex; gap: 0.4rem; padding: 0 0.7rem 0.7rem; }
+  .catalog-btn {
+    flex: 1; padding: 0.4rem;
+    border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600;
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .catalog-btn.primary { background: var(--green); color: var(--navy); }
+  .catalog-btn.secondary { background: rgba(0,229,255,0.12); color: var(--cyan); border: 1px solid rgba(0,229,255,0.25); }
+  .wa-typing {
+    display: flex; gap: 4px; align-items: center;
+    padding: 0.6rem 0.9rem;
+    background: #1E2A42;
+    border-radius: 4px 12px 12px 12px;
+    width: fit-content;
+  }
+  .wa-typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted);
+    animation: typing 1.2s infinite;
+  }
+  .wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .response-badge {
+    position: absolute; top: -12px; right: 20px;
+    background: var(--green); color: var(--navy);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+  }
+
+  /* ── STRIP ── */
+  .brand-strip {
+    border-top: 1px solid var(--navy-border);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; gap: 3rem;
+    overflow: hidden;
+  }
+  .strip-label { font-size: 0.78rem; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .strip-track {
+    display: flex; gap: 3rem; align-items: center;
+    animation: scroll 22s linear infinite;
+    white-space: nowrap;
+  }
+  .strip-item {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .strip-item .icon { font-size: 1rem; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── VALUE PROPS ── */
+  #value { padding: 5rem 4rem; }
+  .section-eyebrow {
+    font-size: 0.78rem; color: var(--cyan);
+    font-weight: 500; letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700; margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--muted); font-size: 1rem;
+    max-width: 520px; line-height: 1.75;
+    margin-bottom: 3.5rem;
+  }
+  .props-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--navy-border);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .prop-card {
+    background: var(--navy-card);
+    padding: 2.2rem;
+    transition: background 0.2s;
+  }
+  .prop-card:hover { background: #192035; }
+  .prop-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .prop-icon.green { background: rgba(170,255,0,0.1); }
+  .prop-icon.cyan { background: rgba(0,229,255,0.1); }
+  .prop-icon.pink { background: rgba(255,75,110,0.1); }
+  .prop-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem; font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .prop-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── HOW IT WORKS ── */
+  #how { padding: 5rem 4rem; }
+  .flow-track {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; position: relative; margin-top: 3rem;
+  }
+  .flow-track::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--green), var(--cyan), var(--green));
+  }
+  .flow-step { text-align: center; padding: 0 1rem; }
+  .flow-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--green);
+    position: relative; z-index: 1;
+  }
+  .flow-step-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .flow-step-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── SERVICES ── */
+  #services-preview { padding: 5rem 4rem; }
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .service-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 14px;
+    padding: 2rem;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-card:hover { border-color: rgba(170,255,0,0.2); transform: translateY(-2px); }
+  .service-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .service-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--white); margin-bottom: 0.6rem;
+  }
+  .service-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+  .service-link {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    margin-top: 1.2rem; font-size: 0.82rem;
+    color: var(--cyan); font-weight: 500;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { padding: 5rem 4rem; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testi-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 14px;
+    padding: 1.8rem;
+  }
+  .testi-stars { color: var(--green); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-text { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.4rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 0.7rem; }
+  .testi-ava {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; color: var(--navy);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .testi-name { font-size: 0.88rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+  .testi-biz { font-size: 0.76rem; color: var(--muted); }
+
+  /* ── CTA BAND ── */
+  #cta-band {
+    margin: 0 4rem 5rem;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 20px;
+    padding: 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+    position: relative; overflow: hidden;
+  }
+  #cta-band::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(170,255,0,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-band-title { font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 700; max-width: 500px; }
+  .cta-band-sub { color: var(--muted); font-size: 0.92rem; margin-top: 0.5rem; }
+  .cta-band-actions { display: flex; gap: 1rem; flex-wrap: wrap; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 3rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { color: var(--muted); font-size: 0.8rem; }
+
+  /* ── ABOUT PAGE ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── INNER HERO ── */
+  .inner-hero {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--navy-border);
+    text-align: center;
+  }
+  .inner-hero .hero-tag { justify-content: center; }
+  .inner-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; max-width: 700px; margin: 0 auto 1rem;
+  }
+  .inner-sub {
+    color: var(--muted); font-size: 1rem; max-width: 540px;
+    margin: 0 auto; line-height: 1.75;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+    padding: 5rem 0;
+  }
+  .about-grid.reversed { direction: rtl; }
+  .about-grid.reversed > * { direction: ltr; }
+  .about-label {
+    font-size: 0.75rem; color: var(--cyan);
+    letter-spacing: 0.08em; font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .about-heading { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; margin-bottom: 1.2rem; }
+  .about-body { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1.2rem; }
+  .tech-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .tech-tag {
+    background: rgba(170,255,0,0.07);
+    border: 1px solid rgba(170,255,0,0.2);
+    color: var(--green);
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem; font-weight: 500;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .speed-visual {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px; padding: 2rem;
+  }
+  .speed-stat {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .speed-stat:last-child { border-bottom: none; }
+  .speed-label { font-size: 0.85rem; color: var(--muted); }
+  .speed-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--green);
+  }
+  .speed-bar-wrap { height: 4px; background: var(--navy-border); border-radius: 4px; margin-top: 0.4rem; overflow: hidden; }
+  .speed-bar { height: 100%; background: linear-gradient(90deg, var(--green), var(--cyan)); border-radius: 4px; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .team-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 1.6rem; text-align: center;
+  }
+  .team-ava {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin: 0 auto 0.8rem;
+  }
+  .team-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; }
+  .team-role { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── SERVICES PAGE ── */
+  .services-full { padding: 4rem 0; }
+  .service-full-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    display: grid; grid-template-columns: 1fr 1.5fr;
+    gap: 3rem; align-items: center;
+  }
+  .service-full-card.reversed { }
+  .service-full-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .service-full-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem;
+  }
+  .service-full-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1.2rem; }
+  .service-features { display: flex; flex-direction: column; gap: 0.5rem; }
+  .feature-line {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.87rem; color: var(--muted);
+  }
+  .feature-line::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); flex-shrink: 0;
+  }
+  .service-visual {
+    background: var(--navy);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    min-height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    color: var(--muted);
+  }
+  .pricing-strip {
+    background: rgba(170,255,0,0.05);
+    border: 1px solid rgba(170,255,0,0.15);
+    border-radius: 10px; padding: 1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 2.5rem;
+  }
+  .pricing-label { font-size: 0.85rem; color: var(--muted); }
+  .pricing-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--green); }
+
+  /* ── CONTACT PAGE ── */
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; padding: 4rem 0;
+    align-items: start;
+  }
+  .contact-info { }
+  .contact-heading { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; margin-bottom: 1rem; }
+  .contact-body { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 2rem; }
+  .contact-detail {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .contact-detail-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--navy-card); border: 1px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-detail-text { font-size: 0.87rem; }
+  .contact-detail-label { color: var(--muted); font-size: 0.75rem; }
+  .form-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+  .form-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.8rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--cyan);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group select option { background: var(--navy); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .wa-live-btn {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: #25D366;
+    color: white;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+    margin-top: 1rem;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .wa-live-btn:hover { opacity: 0.88; }
+  .divider-or {
+    text-align: center; color: var(--muted);
+    font-size: 0.8rem; margin: 1rem 0;
+    position: relative;
+  }
+  .divider-or::before, .divider-or::after {
+    content: '';
+    position: absolute; top: 50%; width: 42%;
+    height: 1px; background: var(--navy-border);
+  }
+  .divider-or::before { left: 0; }
+  .divider-or::after { right: 0; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    nav ul.open { display: flex; flex-direction: column; position: fixed; top: 60px; left: 0; right: 0; background: var(--navy); padding: 2rem; border-bottom: 1px solid var(--navy-border); gap: 1.5rem; }
+    nav ul.open a { font-size: 1rem; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section, #hero { padding: 4rem 1.5rem; }
+    #hero { grid-template-columns: 1fr; padding-top: 6rem; min-height: auto; gap: 3rem; }
+    .hero-metrics { gap: 1.5rem; }
+    .props-grid { grid-template-columns: 1fr; }
+    .flow-track { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .flow-track::before { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    #cta-band { margin: 0 1.5rem 3rem; padding: 2.5rem; flex-direction: column; text-align: center; }
+    .cta-band-actions { justify-content: center; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
+    .footer-links { flex-wrap: wrap; gap: 1rem; }
+    .brand-strip { padding: 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-grid.reversed { direction: ltr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .service-full-card { grid-template-columns: 1fr; gap: 1.5rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .inner-hero { padding: 6rem 1.5rem 3rem; }
+    .inner-hero + section, .inner-hero ~ section { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="volt-line"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo" onclick="showPage('home')">Reply<span>Volt</span> <span class="bolt">⚡</span></a>
+  <ul id="nav-links">
+    <li><a href="#" onclick="showPage('home'); return false;" class="active" id="nav-home">Home</a></li>
+    <li><a href="#" onclick="showPage('about'); return false;" id="nav-about">About Us</a></li>
+    <li><a href="#" onclick="showPage('services'); return false;" id="nav-services">Services</a></li>
+    <li><a href="#" onclick="showPage('contact'); return false;" id="nav-contact">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-cta" onclick="showPage('contact'); return false;">Book Demo</a>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ════════════ HOME PAGE ════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="hero" style="padding-left:4rem;padding-right:4rem;">
+    <div>
+      <div class="hero-tag">
+        <span class="dot"></span>
+        Official Meta WhatsApp Business API Partner
+      </div>
+      <h1 class="hero-title">
+        Turn Every DM into<br><em>Revenue with ReplyVolt</em>
+      </h1>
+      <p class="hero-sub">
+        Sub-second WhatsApp automation, interactive catalogs, and smart AI handoffs — built for D2C brands that refuse to let leads go cold.
+      </p>
+      <div class="hero-btns">
+        <a href="#" class="btn-primary" onclick="showPage('contact'); return false;">⚡ Book a Live WhatsApp Demo</a>
+        <a href="#" class="btn-secondary" onclick="showPage('services'); return false;">See Services →</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-item">
+          <div class="metric-num">&lt;1s</div>
+          <div class="metric-label">Avg. Response Time</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">0%</div>
+          <div class="metric-label">Lead Drop Rate</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">3.8×</div>
+          <div class="metric-label">Higher Conversion</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WA MOCK -->
+    <div>
+      <div class="wa-phone">
+        <div class="response-badge">⚡ &lt;0.8s Response</div>
+        <div class="wa-bar">
+          <div class="wa-avatar">🛍️</div>
+          <div>
+            <div class="wa-name">ReplyVolt Bot</div>
+            <div class="wa-status">● Online — Automated</div>
+          </div>
+        </div>
+        <div class="wa-messages">
+          <div class="msg bot">👋 Hi! Browse our latest drops below 👇</div>
+          <div class="wa-catalog">
+            <div class="catalog-img">👟</div>
+            <div class="catalog-info">
+              <div class="catalog-name">Air Stride Pro 2024</div>
+              <div class="catalog-price">₹2,499 — Free Shipping</div>
+            </div>
+            <div class="catalog-btns">
+              <div class="catalog-btn primary">Buy Now</div>
+              <div class="catalog-btn secondary">View Sizes</div>
+            </div>
+          </div>
+          <div class="msg user">Size 10 please! 🙌</div>
+          <div class="msg bot">✅ Size 10 locked in! Pay & confirm below:</div>
+          <div class="wa-typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND STRIP -->
+  <div class="brand-strip">
+    <span class="strip-label">TRUSTED INTEGRATIONS</span>
+    <div style="overflow:hidden;flex:1;">
+      <div class="strip-track">
+        <div class="strip-item"><span class="icon">⚡</span>Meta WhatsApp Cloud API</div>
+        <div class="strip-item"><span class="icon">🔗</span>Make.com</div>
+        <div class="strip-item"><span class="icon">⚙️</span>n8n Workflows</div>
+        <div class="strip-item"><span class="icon">🤖</span>OpenAI GPT-4</div>
+        <div class="strip-item"><span class="icon">📊</span>HubSpot CRM</div>
+        <div class="strip-item"><span class="icon">🛒</span>Shopify</div>
+        <div class="strip-item"><span class="icon">📱</span>Instagram Automation</div>
+        <!-- duplicate -->
+        <div class="strip-item"><span class="icon">⚡</span>Meta WhatsApp Cloud API</div>
+        <div class="strip-item"><span class="icon">🔗</span>Make.com</div>
+        <div class="strip-item"><span class="icon">⚙️</span>n8n Workflows</div>
+        <div class="strip-item"><span class="icon">🤖</span>OpenAI GPT-4</div>
+        <div class="strip-item"><span class="icon">📊</span>HubSpot CRM</div>
+        <div class="strip-item"><span class="icon">🛒</span>Shopify</div>
+        <div class="strip-item"><span class="icon">📱</span>Instagram Automation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUE PROPS -->
+  <section id="value">
+    <div class="container">
+      <div class="section-eyebrow">Why ReplyVolt</div>
+      <h2 class="section-title">Messaging That Moves<br>at the Speed of Buyers</h2>
+      <p class="section-sub">Every second you're slow to respond is revenue you're handing to your competitor. We close that gap permanently.</p>
+      <div class="props-grid">
+        <div class="prop-card">
+          <div class="prop-icon green">⚡</div>
+          <div class="prop-title">Sub-Second Response</div>
+          <div class="prop-desc">Automated flows fire instantly the moment a lead messages you — no delays, no gaps, no missed opportunities.</div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon cyan">🛍️</div>
+          <div class="prop-title">Interactive Catalogs</div>
+          <div class="prop-desc">Full-product browsing, size selectors, and one-tap checkout — all inside WhatsApp. No app needed.</div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon pink">🤝</div>
+          <div class="prop-title">Smart Human Handoff</div>
+          <div class="prop-desc">AI handles the volume. When intent signals a high-value buyer, we route seamlessly to your best agent.</div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon cyan">📣</div>
+          <div class="prop-title">Broadcast Campaigns</div>
+          <div class="prop-desc">Retarget past buyers and warm leads with personalized WhatsApp blasts at the exact right moment.</div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon green">🔗</div>
+          <div class="prop-title">Meta Cloud API Official</div>
+          <div class="prop-desc">Enterprise-grade reliability, high send limits, blue tick support, and full compliance with Meta's business policies.</div>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon pink">📊</div>
+          <div class="prop-title">CRM & Analytics</div>
+          <div class="prop-desc">Every conversation becomes a data point. Sync to HubSpot, Sheets, or your own CRM in real time.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="section-eyebrow">The Process</div>
+      <h2 class="section-title">From Setup to Sales<br>in Under 7 Days</h2>
+      <div class="flow-track">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-step-title">API Onboarding</div>
+          <div class="flow-step-desc">We set up your Meta WhatsApp Business API, verify your number, and configure webhooks.</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-step-title">Flow Design</div>
+          <div class="flow-step-desc">Custom conversation flows, catalog layouts, and intent maps built for your products and buyers.</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-step-title">AI + Human Config</div>
+          <div class="flow-step-desc">Train the AI layer and configure your agent escalation rules and handoff triggers.</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-step-title">Go Live & Scale</div>
+          <div class="flow-step-desc">Launch, monitor performance, and iterate on flows as your leads convert and data rolls in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES PREVIEW -->
+  <section id="services-preview" style="padding-top:0;">
+    <div class="container">
+      <div class="section-eyebrow">Services</div>
+      <h2 class="section-title">Everything You Need<br>to Close DMs at Scale</h2>
+      <div class="services-grid">
+        <a href="#" class="service-card" onclick="showPage('services'); return false;">
+          <div class="service-icon">📲</div>
+          <div class="service-title">WhatsApp Catalog Setup</div>
+          <div class="service-desc">Interactive product browsing with size selectors, image carousels, and automated checkout flows inside WhatsApp.</div>
+          <div class="service-link">Explore Service →</div>
+        </a>
+        <a href="#" class="service-card" onclick="showPage('services'); return false;">
+          <div class="service-icon">🎯</div>
+          <div class="service-title">Lead Qualification Flows</div>
+          <div class="service-desc">Automated multi-step qualification that scores leads and routes high-intent buyers straight to your sales team.</div>
+          <div class="service-link">Explore Service →</div>
+        </a>
+        <a href="#" class="service-card" onclick="showPage('services'); return false;">
+          <div class="service-icon">🤖</div>
+          <div class="service-title">AI + Human Handoff</div>
+          <div class="service-desc">GPT-powered intent recognition that handles common queries and escalates complex buyers to live agents instantly.</div>
+          <div class="service-link">Explore Service →</div>
+        </a>
+        <a href="#" class="service-card" onclick="showPage('services'); return false;">
+          <div class="service-icon">📡</div>
+          <div class="service-title">Broadcast Campaigns</div>
+          <div class="service-desc">High-ROI retargeting blasts to past buyers and segmented audiences — sent at the exact moment they're likely to buy.</div>
+          <div class="service-link">Explore Service →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-eyebrow">Client Results</div>
+      <h2 class="section-title">Brands That Switched to<br>Zero-Lag Messaging</h2>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"ReplyVolt cut our WhatsApp response time from 4 hours to under a second. Our cart recovery rate went up by 62% in the first month alone."</p>
+          <div class="testi-author">
+            <div class="testi-ava">AK</div>
+            <div>
+              <div class="testi-name">Arjun Kapoor</div>
+              <div class="testi-biz">Founder, UrbanDrop Apparel</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"The catalog flow they built for us is insane — customers are placing orders directly in WhatsApp without ever touching our website."</p>
+          <div class="testi-author">
+            <div class="testi-ava">PS</div>
+            <div>
+              <div class="testi-name">Priya Sharma</div>
+              <div class="testi-biz">CEO, Kira Beauty D2C</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Setup was done in 5 days, and the handoff to our agents is seamless. It feels like we have a full-time team that never sleeps."</p>
+          <div class="testi-author">
+            <div class="testi-ava">RM</div>
+            <div>
+              <div class="testi-name">Rohit Mehra</div>
+              <div class="testi-biz">Operations Head, FreshCart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div id="cta-band">
+    <div>
+      <div class="cta-band-title">Ready to Stop Losing Sales<br>to Slow Replies?</div>
+      <div class="cta-band-sub">Book a live demo and see a real WhatsApp flow built for your brand in 20 minutes.</div>
+    </div>
+    <div class="cta-band-actions">
+      <a href="#" class="btn-primary" onclick="showPage('contact'); return false;">⚡ Book Free Demo</a>
+      <a href="#" class="btn-secondary" onclick="showPage('services'); return false;">View Services</a>
+    </div>
+  </div>
+
+</div>
+<!-- END HOME -->
+
+<!-- ════════════ ABOUT PAGE ════════════ -->
+<div id="page-about" class="page">
+  <div class="inner-hero container" style="padding-left:4rem;padding-right:4rem;max-width:100%;">
+    <div class="hero-tag" style="display:inline-flex;">🏢 Official Meta Business Partner</div>
+    <h1 class="inner-title">The Agency Behind the<br>Fastest WhatsApp Funnels</h1>
+    <p class="inner-sub">We're a conversation design and automation agency that believes no lead should ever wait more than a second for a reply.</p>
+  </div>
+
+  <section style="padding-top:4rem;">
+    <div class="container">
+      <!-- WHO WE ARE -->
+      <div class="about-grid">
+        <div>
+          <div class="about-label">Who We Are</div>
+          <h2 class="about-heading">Built for Brands That Move Fast</h2>
+          <p class="about-body">At ReplyVolt, we are an official Meta WhatsApp Business API and conversation design agency. We build superfast, high-converting interactive messaging flows, catalogs, and hybrid AI-human handoff systems.</p>
+          <p class="about-body">We work with D2C brands, local businesses, and enterprises who know that the fastest responder wins — and who refuse to leave revenue on the table through slow, manual DM handling.</p>
+          <div class="tech-list">
+            <span class="tech-tag">Meta Cloud API</span>
+            <span class="tech-tag">Make.com</span>
+            <span class="tech-tag">n8n</span>
+            <span class="tech-tag">GPT-4 Intent AI</span>
+            <span class="tech-tag">Custom Webhooks</span>
+            <span class="tech-tag">HubSpot</span>
+            <span class="tech-tag">Shopify</span>
+          </div>
+        </div>
+        <div>
+          <div class="speed-visual">
+            <div style="width:100%;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:var(--muted);margin-bottom:1.2rem;">PERFORMANCE BENCHMARKS</div>
+              <div class="speed-stat">
+                <div>
+                  <div class="speed-label">First Response Time</div>
+                  <div class="speed-bar-wrap" style="width:200px;margin-top:0.5rem;"><div class="speed-bar" style="width:95%;"></div></div>
+                </div>
+                <div class="speed-val">0.8s</div>
+              </div>
+              <div class="speed-stat">
+                <div>
+                  <div class="speed-label">Lead Conversion Rate</div>
+                  <div class="speed-bar-wrap" style="width:200px;margin-top:0.5rem;"><div class="speed-bar" style="width:72%;"></div></div>
+                </div>
+                <div class="speed-val">34%</div>
+              </div>
+              <div class="speed-stat">
+                <div>
+                  <div class="speed-label">Cart Recovery Rate</div>
+                  <div class="speed-bar-wrap" style="width:200px;margin-top:0.5rem;"><div class="speed-bar" style="width:68%;"></div></div>
+                </div>
+                <div class="speed-val">61%</div>
+              </div>
+              <div class="speed-stat">
+                <div>
+                  <div class="speed-label">Broadcast Open Rate</div>
+                  <div class="speed-bar-wrap" style="width:200px;margin-top:0.5rem;"><div class="speed-bar" style="width:82%;"></div></div>
+                </div>
+                <div class="speed-val">79%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MISSION -->
+      <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:20px;padding:3rem;margin:3rem 0;">
+        <div class="about-label">Our Mission</div>
+        <h2 class="about-heading" style="max-width:700px;">Eliminate Manual DM Friction. Permanently.</h2>
+        <p class="about-body" style="max-width:680px;">To zero out response delays and help businesses deliver instant, personalized customer experiences right inside WhatsApp and Instagram — at any scale, without adding headcount.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;">
+          <div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--green);">200+</div>
+            <div style="font-size:0.82rem;color:var(--muted);margin-top:0.2rem;">Flows Built</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--cyan);">50+</div>
+            <div style="font-size:0.82rem;color:var(--muted);margin-top:0.2rem;">D2C Brands Served</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--green);">₹18Cr+</div>
+            <div style="font-size:0.82rem;color:var(--muted);margin-top:0.2rem;">Revenue Generated via WhatsApp</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHY SPEED MATTERS -->
+      <div class="about-grid reversed">
+        <div>
+          <div style="background:var(--navy);border:1px solid var(--navy-border);border-radius:16px;padding:2rem;">
+            <div style="font-size:0.78rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;margin-bottom:1.5rem;">RESPONSE TIME vs CONVERSION</div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.4rem;">
+                  <span style="color:var(--muted);">Under 1 second</span>
+                  <span style="color:var(--green);font-weight:600;">34% conversion</span>
+                </div>
+                <div class="speed-bar-wrap"><div class="speed-bar" style="width:85%;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.4rem;">
+                  <span style="color:var(--muted);">Under 5 minutes</span>
+                  <span style="color:var(--cyan);font-weight:600;">18% conversion</span>
+                </div>
+                <div class="speed-bar-wrap"><div class="speed-bar" style="width:45%;background:var(--cyan);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.4rem;">
+                  <span style="color:var(--muted);">Over 1 hour</span>
+                  <span style="color:var(--danger);font-weight:600;">4% conversion</span>
+                </div>
+                <div class="speed-bar-wrap"><div class="speed-bar" style="width:10%;background:var(--danger);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="about-label">Why Speed Matters</div>
+          <h2 class="about-heading">Your Buyer Decides in Seconds</h2>
+          <p class="about-body">Research consistently shows that conversion rates drop by over 8× when response time goes from under a minute to over an hour. In messaging, the window of buyer intent is brutally short.</p>
+          <p class="about-body">ReplyVolt was built because we watched too many great brands lose high-intent buyers to competitors who responded faster — not who had the better product.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<!-- END ABOUT -->
+
+<!-- ════════════ SERVICES PAGE ════════════ -->
+<div id="page-services" class="page">
+  <div class="inner-hero container" style="padding-left:4rem;padding-right:4rem;max-width:100%;">
+    <div class="hero-tag" style="display:inline-flex;">⚡ Full-Service WhatsApp Automation</div>
+    <h1 class="inner-title">Everything Your Brand Needs<br>to Win in the DMs</h1>
+    <p class="inner-sub">From API setup to catalog flows to broadcast campaigns — end-to-end WhatsApp automation built and managed for you.</p>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="service-full-card">
+        <div>
+          <div class="service-full-icon">📲</div>
+          <div class="service-full-title">Interactive WhatsApp Catalog Setup</div>
+          <p class="service-full-desc">We design and build full-product browsing experiences inside WhatsApp — images, size selectors, quantity pickers, and one-tap checkout — all powered by Meta's native catalog API.</p>
+          <div class="service-features">
+            <div class="feature-line">Meta Catalog API integration with real-time inventory sync</div>
+            <div class="feature-line">Sub-second image rendering and variant selection flows</div>
+            <div class="feature-line">Automated checkout with payment gateway triggers</div>
+            <div class="feature-line">Order confirmation and status update automation</div>
+            <div class="feature-line">Shopify & WooCommerce integration ready</div>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="text-align:center;">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">🛍️</div>
+            <div style="font-size:0.8rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;">WhatsApp Catalog Live Preview</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div>
+          <div class="service-full-icon">🎯</div>
+          <div class="service-full-title">Automated Lead Qualification & D2C Ordering</div>
+          <p class="service-full-desc">Multi-step qualification flows that score leads by intent, budget, and product fit — routing the hottest buyers directly to conversion paths and your sales team instantly.</p>
+          <div class="service-features">
+            <div class="feature-line">Custom qualification trees built for your sales process</div>
+            <div class="feature-line">Lead scoring and tagging for CRM sync</div>
+            <div class="feature-line">Automated follow-up sequences for warm leads</div>
+            <div class="feature-line">D2C ordering flows with address and payment capture</div>
+            <div class="feature-line">HubSpot, Zoho, and Airtable integration</div>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="text-align:center;">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">🎯</div>
+            <div style="font-size:0.8rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;">Lead Qualification Flow</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div>
+          <div class="service-full-icon">🤖</div>
+          <div class="service-full-title">Smart AI + Human Agent Handoff</div>
+          <p class="service-full-desc">GPT-4 powered intent recognition handles the volume at scale. When a conversation signals a high-value buyer or complex query, it routes to your best live agent in under 2 seconds.</p>
+          <div class="service-features">
+            <div class="feature-line">GPT-4 intent classification with custom training</div>
+            <div class="feature-line">Real-time agent escalation with full conversation context</div>
+            <div class="feature-line">Agent dashboard with WhatsApp inbox management</div>
+            <div class="feature-line">Fallback handling and out-of-hours auto-reply</div>
+            <div class="feature-line">Performance analytics per agent and per flow</div>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="text-align:center;">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">🤝</div>
+            <div style="font-size:0.8rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;">AI-Human Handoff System</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div>
+          <div class="service-full-icon">📡</div>
+          <div class="service-full-title">WhatsApp Broadcast Campaigns</div>
+          <p class="service-full-desc">High-ROI retargeting and nurturing campaigns sent to your opted-in audience. We handle template approval, audience segmentation, timing strategy, and performance reporting.</p>
+          <div class="service-features">
+            <div class="feature-line">Meta template creation and approval management</div>
+            <div class="feature-line">Audience segmentation by behavior and purchase history</div>
+            <div class="feature-line">A/B testing for message copy and send timing</div>
+            <div class="feature-line">Delivery, open, and click-through reporting</div>
+            <div class="feature-line">Re-engagement flows triggered from campaign replies</div>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="text-align:center;">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">📡</div>
+            <div style="font-size:0.8rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;">Broadcast Campaign Manager</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-strip">
+        <div>
+          <div class="pricing-label">All services include setup, testing, and 30-day post-launch support.</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <div class="pricing-val">Custom Pricing</div>
+          <a href="#" class="btn-primary" onclick="showPage('contact'); return false;" style="padding:0.6rem 1.2rem;font-size:0.85rem;">Get a Quote ⚡</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- END SERVICES -->
+
+<!-- ════════════ CONTACT PAGE ════════════ -->
+<div id="page-contact" class="page">
+  <div class="inner-hero container" style="padding-left:4rem;padding-right:4rem;max-width:100%;">
+    <div class="hero-tag" style="display:inline-flex;">⚡ Free 20-Min Live Demo</div>
+    <h1 class="inner-title">Let's Build Your WhatsApp<br>Revenue Machine</h1>
+    <p class="inner-sub">Book a live demo, test a real flow, or just reach out. We typically respond within the hour.</p>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="contact-layout">
+        <div class="contact-info">
+          <h2 class="contact-heading">Talk to the Team</h2>
+          <p class="contact-body">Whether you're a D2C brand ready to automate, an enterprise exploring WhatsApp at scale, or a local business that wants to close more DMs — we're here to help you figure out the exact right approach.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📧</div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-text">hello@replyvolt.com</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">💬</div>
+            <div>
+              <div class="contact-detail-label">WhatsApp</div>
+              <div class="contact-detail-text">+91 98765 43210</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">⏰</div>
+            <div>
+              <div class="contact-detail-label">Response Time</div>
+              <div class="contact-detail-text">Under 1 hour, Mon–Sat</div>
+            </div>
+          </div>
+
+          <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:14px;padding:1.8rem;margin-top:2rem;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:0.9rem;font-weight:600;margin-bottom:0.8rem;">What happens in the demo?</div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+              <div class="feature-line">We show you a live WhatsApp flow tailored to your business type</div>
+              <div class="feature-line">You can test the catalog, ordering, and handoff experience firsthand</div>
+              <div class="feature-line">We scope a custom build and provide a timeline + pricing</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-card">
+            <div class="form-title">Book Your Live WhatsApp Demo</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="Rahul">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Verma">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Business Email</label>
+              <input type="email" placeholder="you@yourbrand.com">
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number</label>
+              <input type="tel" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label>Business Type</label>
+              <select>
+                <option value="">Select your business type</option>
+                <option>D2C Brand / E-commerce</option>
+                <option>Local / Retail Business</option>
+                <option>Enterprise / Large Brand</option>
+                <option>Agency (for a client)</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>What's your main challenge right now?</label>
+              <textarea placeholder="e.g. We get 200+ WhatsApp DMs a day and can't keep up..."></textarea>
+            </div>
+            <button onclick="handleFormSubmit()" class="btn-primary" style="width:100%;justify-content:center;border:none;cursor:pointer;font-size:0.95rem;">⚡ Book My Free Demo</button>
+            <div class="divider-or">or</div>
+            <a href="https://wa.me/919876543210?text=Hi%20ReplyVolt!%20I%20want%20to%20test%20your%20live%20WhatsApp%20flow." class="wa-live-btn" target="_blank">
+              <span>💬</span> Test Live Flow Now on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS MESSAGE (hidden) -->
+  <div id="form-success" style="display:none;text-align:center;padding:3rem;background:var(--navy-card);border:1px solid rgba(170,255,0,0.2);border-radius:16px;margin:2rem auto;max-width:500px;">
+    <div style="font-size:3rem;margin-bottom:1rem;">⚡</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--green);margin-bottom:0.5rem;">Demo Request Sent!</div>
+    <p style="color:var(--muted);font-size:0.9rem;">We'll reach out via WhatsApp within the hour to confirm your demo time.</p>
+  </div>
+</div>
+<!-- END CONTACT -->
+
+<!-- FOOTER (shared) -->
+<footer>
+  <a href="#" class="footer-logo" onclick="showPage('home')">Reply<span>Volt</span> ⚡</a>
+  <nav class="footer-links">
+    <a href="#" onclick="showPage('home'); return false;">Home</a>
+    <a href="#" onclick="showPage('about'); return false;">About</a>
+    <a href="#" onclick="showPage('services'); return false;">Services</a>
+    <a href="#" onclick="showPage('contact'); return false;">Contact</a>
+  </nav>
+  <div class="footer-copy">© 2024 ReplyVolt. Official Meta Business Partner.</div>
+</footer>
+
+<script>
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('nav ul a[id^="nav-"]').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + page);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('nav-links').classList.remove('open');
+  }
+
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  function handleFormSubmit() {
+    const fc = document.querySelector('.form-card');
+    const fs = document.getElementById('form-success');
+    if (fc) fc.style.display = 'none';
+    if (fs) fs.style.display = 'block';
+  }
+
+  // Keyboard nav close
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('nav')) {
+      document.getElementById('nav-links').classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>
